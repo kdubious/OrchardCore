@@ -28,13 +28,12 @@
     plugins: {
       allowTagsFromPaste: {
         init: function init(trumbowyg) {
-          // Force disable remove format pasted
-          trumbowyg.o.removeformatPasted = false;
-
           if (!trumbowyg.o.plugins.allowTagsFromPaste) {
             return;
-          }
+          } // Force disable remove format pasted
 
+
+          trumbowyg.o.removeformatPasted = false;
           var allowedTags = trumbowyg.o.plugins.allowTagsFromPaste.allowedTags || defaultOptions.allowedTags;
           var removableTags = trumbowyg.o.plugins.allowTagsFromPaste.removableTags || defaultOptions.removableTags;
 
@@ -94,6 +93,12 @@
         file: 'Fil',
         errFileReaderNotSupported: 'FileReader er ikke understøttet af din browser.',
         errInvalidImage: 'Ugyldig billedfil.'
+      },
+      et: {
+        base64: 'Pilt base64 formaadis',
+        file: 'Fail',
+        errFileReaderNotSupported: 'Teie veebilehitseja ei toeta FileReader funktsiooni.',
+        errInvalidImage: 'Vigane pildifail.'
       },
       fr: {
         base64: 'Image en base64',
@@ -322,6 +327,7 @@
 
                 trumbowyg.saveRange();
                 trumbowyg.syncCode();
+                trumbowyg.$c.trigger('tbwchange');
               } catch (c) {}
             }, 0);
           });
@@ -356,6 +362,9 @@
       },
       de: {
         emoji: 'Emoticon einfügen'
+      },
+      et: {
+        emoji: 'Lisa emotikon'
       },
       fr: {
         emoji: 'Ajouter un emoji'
@@ -464,6 +473,12 @@
         foreColor: 'Textfarbe',
         backColor: 'Hintergrundfarbe'
       },
+      et: {
+        foreColor: 'Teksti värv',
+        backColor: 'Taustavärv',
+        foreColorRemove: 'Eemalda teksti värv',
+        backColorRemove: 'Eemalda taustavärv'
+      },
       fr: {
         foreColor: 'Couleur du texte',
         backColor: 'Couleur de fond',
@@ -504,7 +519,9 @@
       },
       tr: {
         foreColor: 'Yazı rengi',
-        backColor: 'Arkaplan rengi'
+        backColor: 'Arka plan rengi',
+        foreColorRemove: 'Yazı rengini kaldır',
+        backColorRemove: 'Arka plan rengini kaldır'
       },
       zh_cn: {
         foreColor: '文字颜色',
@@ -527,7 +544,7 @@
     } else if (rgb === 'rgba(0, 0, 0, 0)') {
       return 'transparent';
     } else {
-      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+))?\)$/);
+      rgb = rgb.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d?(.\d+)))?\)$/);
       return hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
     }
   }
@@ -686,6 +703,9 @@
       de: {
         fontFamily: 'Schriftart'
       },
+      et: {
+        fontFamily: 'Font'
+      },
       fr: {
         fontFamily: 'Police'
       },
@@ -702,7 +722,7 @@
         fontFamily: 'Fonte'
       },
       tr: {
-        fontFamily: 'Yazı Tipi'
+        fontFamily: 'Yazı tipi'
       },
       zh_tw: {
         fontFamily: '字體'
@@ -790,278 +810,25 @@
     langs: {
       // jshint camelcase:false
       en: {
-        fontsize: 'Font size',
-        fontsizes: {
-          'x-small': 'Extra small',
-          'small': 'Small',
-          'medium': 'Regular',
-          'large': 'Large',
-          'x-large': 'Extra large',
-          'custom': 'Custom'
-        },
-        fontCustomSize: {
-          title: 'Custom Font Size',
-          label: 'Font Size',
-          value: '48px'
-        }
-      },
-      da: {
-        fontsize: 'Skriftstørrelse',
-        fontsizes: {
-          'x-small': 'Ekstra lille',
-          'small': 'Lille',
-          'medium': 'Normal',
-          'large': 'Stor',
-          'x-large': 'Ekstra stor',
-          'custom': 'Brugerdefineret'
-        }
-      },
-      de: {
-        fontsize: 'Schriftgröße',
-        fontsizes: {
-          'x-small': 'Sehr klein',
-          'small': 'Klein',
-          'medium': 'Normal',
-          'large': 'Groß',
-          'x-large': 'Sehr groß',
-          'custom': 'Benutzerdefiniert'
-        },
-        fontCustomSize: {
-          title: 'Benutzerdefinierte Schriftgröße',
-          label: 'Schriftgröße',
-          value: '48px'
-        }
-      },
-      es: {
-        fontsize: 'Tamaño de Fuente',
-        fontsizes: {
-          'x-small': 'Extra pequeña',
-          'small': 'Pegueña',
-          'medium': 'Regular',
-          'large': 'Grande',
-          'x-large': 'Extra Grande',
-          'custom': 'Customizada'
-        },
-        fontCustomSize: {
-          title: 'Tamaño de Fuente Customizada',
-          label: 'Tamaño de Fuente',
-          value: '48px'
-        }
-      },
-      fr: {
-        fontsize: 'Taille de la police',
-        fontsizes: {
-          'x-small': 'Très petit',
-          'small': 'Petit',
-          'medium': 'Normal',
-          'large': 'Grand',
-          'x-large': 'Très grand',
-          'custom': 'Taille personnalisée'
-        },
-        fontCustomSize: {
-          title: 'Taille de police personnalisée',
-          label: 'Taille de la police',
-          value: '48px'
-        }
-      },
-      hu: {
-        fontsize: 'Betű méret',
-        fontsizes: {
-          'x-small': 'Extra kicsi',
-          'small': 'Kicsi',
-          'medium': 'Normális',
-          'large': 'Nagy',
-          'x-large': 'Extra nagy',
-          'custom': 'Egyedi'
-        },
-        fontCustomSize: {
-          title: 'Egyedi betű méret',
-          label: 'Betű méret',
-          value: '48px'
-        }
-      },
-      it: {
-        fontsize: 'Dimensioni del testo',
-        fontsizes: {
-          'x-small': 'Molto piccolo',
-          'small': 'piccolo',
-          'regular': 'normale',
-          'large': 'grande',
-          'x-large': 'Molto grande',
-          'custom': 'Personalizzato'
-        },
-        fontCustomSize: {
-          title: 'Dimensioni del testo personalizzato',
-          label: 'Dimensioni del testo',
-          value: '48px'
-        }
-      },
-      ko: {
-        fontsize: '글꼴 크기',
-        fontsizes: {
-          'x-small': '아주 작게',
-          'small': '작게',
-          'medium': '보통',
-          'large': '크게',
-          'x-large': '아주 크게',
-          'custom': '사용자 지정'
-        },
-        fontCustomSize: {
-          title: '사용자 지정 글꼴 크기',
-          label: '글꼴 크기',
-          value: '48px'
-        }
-      },
-      nl: {
-        fontsize: 'Lettergrootte',
-        fontsizes: {
-          'x-small': 'Extra klein',
-          'small': 'Klein',
-          'medium': 'Normaal',
-          'large': 'Groot',
-          'x-large': 'Extra groot',
-          'custom': 'Tilpasset'
-        }
-      },
-      pt_br: {
-        fontsize: 'Tamanho da fonte',
-        fontsizes: {
-          'x-small': 'Extra pequeno',
-          'small': 'Pequeno',
-          'regular': 'Médio',
-          'large': 'Grande',
-          'x-large': 'Extra grande',
-          'custom': 'Personalizado'
-        },
-        fontCustomSize: {
-          title: 'Tamanho de Fonte Personalizado',
-          label: 'Tamanho de Fonte',
-          value: '48px'
-        }
-      },
-      tr: {
-        fontsize: 'Yazı Boyutu',
-        fontsizes: {
-          'x-small': 'Çok Küçük',
-          'small': 'Küçük',
-          'medium': 'Normal',
-          'large': 'Büyük',
-          'x-large': 'Çok Büyük',
-          'custom': 'Görenek'
-        }
-      },
-      zh_tw: {
-        fontsize: '字體大小',
-        fontsizes: {
-          'x-small': '最小',
-          'small': '小',
-          'medium': '中',
-          'large': '大',
-          'x-large': '最大',
-          'custom': '自訂大小'
-        },
-        fontCustomSize: {
-          title: '自訂義字體大小',
-          label: '字體大小',
-          value: '48px'
-        }
-      }
-    }
-  }); // jshint camelcase:true
-
-  var defaultOptions = {
-    sizeList: ['x-small', 'small', 'medium', 'large', 'x-large'],
-    allowCustomSize: true
-  }; // Add dropdown with font sizes
-
-  $.extend(true, $.trumbowyg, {
-    plugins: {
-      fontsize: {
-        init: function init(trumbowyg) {
-          trumbowyg.o.plugins.fontsize = $.extend({}, defaultOptions, trumbowyg.o.plugins.fontsize || {});
-          trumbowyg.addBtnDef('fontsize', {
-            dropdown: buildDropdown(trumbowyg)
-          });
-        }
-      }
-    }
-  });
-
-  function setFontSize(trumbowyg, size) {
-    trumbowyg.$ed.focus();
-    trumbowyg.saveRange(); // Temporary size
-
-    trumbowyg.execCmd('fontSize', '1'); // Find <font> elements that were added and change to <span> with chosen size
-
-    trumbowyg.$ed.find('font[size="1"]').replaceWith(function () {
-      return $('<span/>', {
-        css: {
-          'font-size': size
-        },
-        html: this.innerHTML
-      });
-    }); // Remove and leftover <span> elements
-
-    $(trumbowyg.range.startContainer.parentElement).find('span[style=""]').contents().unwrap();
-    trumbowyg.restoreRange();
-  }
-
-  function buildDropdown(trumbowyg) {
-    var dropdown = [];
-    $.each(trumbowyg.o.plugins.fontsize.sizeList, function (index, size) {
-      trumbowyg.addBtnDef('fontsize_' + size, {
-        text: '<span style="font-size: ' + size + ';">' + (trumbowyg.lang.fontsizes[size] || size) + '</span>',
-        hasIcon: false,
-        fn: function fn() {
-          setFontSize(trumbowyg, size);
-        }
-      });
-      dropdown.push('fontsize_' + size);
-    });
-
-    if (trumbowyg.o.plugins.fontsize.allowCustomSize) {
-      var customSizeButtonName = 'fontsize_custom';
-      var customSizeBtnDef = {
-        fn: function fn() {
-          trumbowyg.openModalInsert(trumbowyg.lang.fontCustomSize.title, {
-            size: {
-              label: trumbowyg.lang.fontCustomSize.label,
-              value: trumbowyg.lang.fontCustomSize.value
-            }
-          }, function (form) {
-            setFontSize(trumbowyg, form.size);
-            return true;
-          });
-        },
-        text: '<span style="font-size: medium;">' + trumbowyg.lang.fontsizes.custom + '</span>',
-        hasIcon: false
-      };
-      trumbowyg.addBtnDef(customSizeButtonName, customSizeBtnDef);
-      dropdown.push(customSizeButtonName);
-    }
-
-    return dropdown;
-  }
-})(jQuery);
-(function ($) {
-  'use strict';
-
-  $.extend(true, $.trumbowyg, {
-    langs: {
-      // jshint camelcase:false
-      en: {
         giphy: 'Insert GIF'
+      },
+      et: {
+        giphy: 'Sisesta GIF'
       },
       fr: {
         giphy: 'Insérer un GIF'
       },
       hu: {
         giphy: 'GIF beszúrás'
+      },
+      tr: {
+        giphy: 'GIF ekle'
       } // jshint camelcase:true
 
     }
   });
-  var giphyLogo = '<svg viewBox="0 0 231 53" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><path d="M48.32 22.386c0-1.388-.252-1.892-1.767-1.85-3.448.126-6.855.042-10.303.042H25.443c-.927 0-1.346.211-1.305 1.22.085 2.86.085 5.72.043 8.58 0 .883.252 1.169 1.169 1.135 2.018-.084 3.995-.042 6.014 0 1.64 0 4.164-.546 4.752.252.841 1.169.421 3.364.337 5.089-.043.547-.547 1.304-1.094 1.598-2.692 1.556-5.678 2.018-8.747 1.892-5.342-.21-9.336-2.439-11.481-7.527-1.388-3.364-1.725-6.855-1.01-10.43 1.01-4.963 3.407-8.747 8.58-10.051 5.215-1.305 10.136-.547 14.467 2.817 1.219.967 1.798.715 2.691-.294 1.514-1.724 3.154-3.322 4.753-4.963 1.892-1.933 1.892-1.892-.169-3.7C38.429.813 31.238-.617 23.5.224 12.818 1.393 5.248 6.658 1.59 17.045-.177 22.008-.428 27.097.623 32.227c1.682 7.914 5.551 14.12 13.289 17.368 6.898 2.901 14.046 3.448 21.321 1.598 4.331-1.093 8.411-2.608 11.354-6.223 1.136-1.388 1.725-2.902 1.682-4.71l.043-17.873.008-.001zm125.153 3.784l.042-23.046c0-1.136-.168-1.598-1.472-1.556a238.02 238.02 0 0 1-11.017 0c-1.136-.042-1.439.337-1.439 1.439v15.645c0 1.345-.421 1.556-1.641 1.556a422.563 422.563 0 0 0-14.593 0c-1.262.042-1.472-.421-1.439-1.556l.043-15.813c0-.926-.169-1.304-1.17-1.262h-11.513c-.927 0-1.304.169-1.304 1.22v46.764c0 .967.252 1.262 1.219 1.262h11.512c1.169.042 1.262-.462 1.262-1.388l-.042-15.644c0-1.053.251-1.346 1.304-1.346h15.14c1.22 0 1.388.421 1.388 1.472l-.042 15.477c0 1.093.21 1.472 1.388 1.439 3.615-.085 7.233-.085 10.807 0 1.304.042 1.598-.337 1.598-1.598l-.042-23.047.011-.018zM106.565 1.654c-8.369-.211-16.728-.126-25.065-.211-1.346 0-1.767.337-1.767 1.724l.043 23.004v23.215c0 1.009.168 1.439 1.304 1.387a271.22 271.22 0 0 1 11.691 0c1.094 0 1.346-.336 1.346-1.345l-.042-10.64c0-1.052.294-1.345 1.345-1.345 3.322.042 6.645.085 9.967-.085 4.407-.21 8.621-1.219 12.111-4.12 5.551-4.584 7.613-12.701 5.131-20.061-2.313-6.561-8.747-11.354-16.064-11.522v-.001zm-3.028 24.013c-2.818.042-5.594-.043-8.411.042-1.169.042-1.439-.378-1.345-1.439.084-1.556 0-3.069 0-4.626v-5.131c-.043-.841.251-1.094 1.052-1.052 2.986.042 5.929-.085 8.915.042 3.616.126 5.887 2.692 5.846 6.266-.126 3.658-2.313 5.846-6.055 5.887l-.002.011zM229.699 1.569c-4.458 0-8.915-.042-13.415.043-.629 0-1.472.503-1.85 1.052a505.695 505.695 0 0 0-8.957 14.214c-.884 1.472-1.22 1.169-1.977-.084l-8.496-14.089c-.503-.841-1.052-1.136-2.018-1.136l-13.078.043c-.462 0-.967.125-1.439.21.21.378.378.799.629 1.169l17.412 27.167c.462.715.715 1.682.757 2.524v16.653c0 1.052.168 1.514 1.388 1.472 3.784-.084 7.57-.084 11.354 0 1.136.043 1.304-.377 1.304-1.387l-.042-8.58c0-2.734-.084-5.51.042-8.243.043-.926.337-1.933.841-2.649l18.167-27.041c.252-.337.337-.758.547-1.17a3.636 3.636 0 0 0-1.169-.168zM70.104 2.661c0-1.009-.294-1.219-1.262-1.219H57.69c-1.262-.043-1.472.377-1.472 1.513l.042 23.004v23.34c0 1.053.126 1.514 1.346 1.473 3.7-.085 7.444-.043 11.152 0 .966 0 1.387-.085 1.387-1.262l-.042-46.857.001.008z" fill="currentColor" fill-rule="nonzero"/></svg>';
+  var giphyLogo = '<svg viewBox="0 0 231 53" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"><path d="M48.32 22.386c0-1.388-.252-1.892-1.767-1.85-3.448.126-6.855.042-10.303.042H25.443c-.927 0-1.346.211-1.305 1.22.085 2.86.085 5.72.043 8.58 0 .883.252 1.169 1.169 1.135 2.018-.084 3.995-.042 6.014 0 1.64 0 4.164-.546 4.752.252.841 1.169.421 3.364.337 5.089-.043.547-.547 1.304-1.094 1.598-2.692 1.556-5.678 2.018-8.747 1.892-5.342-.21-9.336-2.439-11.481-7.527-1.388-3.364-1.725-6.855-1.01-10.43 1.01-4.963 3.407-8.747 8.58-10.051 5.215-1.305 10.136-.547 14.467 2.817 1.219.967 1.798.715 2.691-.294 1.514-1.724 3.154-3.322 4.753-4.963 1.892-1.933 1.892-1.892-.169-3.7C38.429.813 31.238-.617 23.5.224 12.818 1.393 5.248 6.658 1.59 17.045-.177 22.008-.428 27.097.623 32.227c1.682 7.914 5.551 14.12 13.289 17.368 6.898 2.901 14.046 3.448 21.321 1.598 4.331-1.093 8.411-2.608 11.354-6.223 1.136-1.388 1.725-2.902 1.682-4.71l.043-17.873.008-.001zm125.153 3.784l.042-23.046c0-1.136-.168-1.598-1.472-1.556a238.02 238.02 0 0 1-11.017 0c-1.136-.042-1.439.337-1.439 1.439v15.645c0 1.345-.421 1.556-1.641 1.556a422.563 422.563 0 0 0-14.593 0c-1.262.042-1.472-.421-1.439-1.556l.043-15.813c0-.926-.169-1.304-1.17-1.262h-11.513c-.927 0-1.304.169-1.304 1.22v46.764c0 .967.252 1.262 1.219 1.262h11.512c1.169.042 1.262-.462 1.262-1.388l-.042-15.644c0-1.053.251-1.346 1.304-1.346h15.14c1.22 0 1.388.421 1.388 1.472l-.042 15.477c0 1.093.21 1.472 1.388 1.439 3.615-.085 7.233-.085 10.807 0 1.304.042 1.598-.337 1.598-1.598l-.042-23.047.011-.018zM106.565 1.654c-8.369-.211-16.728-.126-25.065-.211-1.346 0-1.767.337-1.767 1.724l.043 23.004v23.215c0 1.009.168 1.439 1.304 1.387a271.22 271.22 0 0 1 11.691 0c1.094 0 1.346-.336 1.346-1.345l-.042-10.64c0-1.052.294-1.345 1.345-1.345 3.322.042 6.645.085 9.967-.085 4.407-.21 8.621-1.219 12.111-4.12 5.551-4.584 7.613-12.701 5.131-20.061-2.313-6.561-8.747-11.354-16.064-11.522v-.001zm-3.028 24.013c-2.818.042-5.594-.043-8.411.042-1.169.042-1.439-.378-1.345-1.439.084-1.556 0-3.069 0-4.626v-5.131c-.043-.841.251-1.094 1.052-1.052 2.986.042 5.929-.085 8.915.042 3.616.126 5.887 2.692 5.846 6.266-.126 3.658-2.313 5.846-6.055 5.887l-.002.011zM229.699 1.569c-4.458 0-8.915-.042-13.415.043-.629 0-1.472.503-1.85 1.052a505.695 505.695 0 0 0-8.957 14.214c-.884 1.472-1.22 1.169-1.977-.084l-8.496-14.089c-.503-.841-1.052-1.136-2.018-1.136l-13.078.043c-.462 0-.967.125-1.439.21.21.378.378.799.629 1.169l17.412 27.167c.462.715.715 1.682.757 2.524v16.653c0 1.052.168 1.514 1.388 1.472 3.784-.084 7.57-.084 11.354 0 1.136.043 1.304-.377 1.304-1.387l-.042-8.58c0-2.734-.084-5.51.042-8.243.043-.926.337-1.933.841-2.649l18.167-27.041c.252-.337.337-.758.547-1.17a3.636 3.636 0 0 0-1.169-.168zM70.104 2.661c0-1.009-.294-1.219-1.262-1.219H57.69c-1.262-.043-1.472.377-1.472 1.513l.042 23.004v23.34c0 1.053.126 1.514 1.346 1.473 3.7-.085 7.444-.043 11.152 0 .966 0 1.387-.085 1.387-1.262l-.042-46.857.001.008z" fill="currentColor" fill-rule="nonzero"/></svg>'; // jshint ignore:line
+
   var CANCEL_EVENT = 'tbwcancel'; // Throttle helper
 
   function trumbowygThrottle(callback, delay) {
@@ -1208,6 +975,289 @@
     }
   });
 })(jQuery);
+(function ($) {
+  'use strict';
+
+  $.extend(true, $.trumbowyg, {
+    langs: {
+      // jshint camelcase:false
+      en: {
+        fontsize: 'Font size',
+        fontsizes: {
+          'x-small': 'Extra small',
+          'small': 'Small',
+          'medium': 'Regular',
+          'large': 'Large',
+          'x-large': 'Extra large',
+          'custom': 'Custom'
+        },
+        fontCustomSize: {
+          title: 'Custom Font Size',
+          label: 'Font Size',
+          value: '48px'
+        }
+      },
+      da: {
+        fontsize: 'Skriftstørrelse',
+        fontsizes: {
+          'x-small': 'Ekstra lille',
+          'small': 'Lille',
+          'medium': 'Normal',
+          'large': 'Stor',
+          'x-large': 'Ekstra stor',
+          'custom': 'Brugerdefineret'
+        }
+      },
+      de: {
+        fontsize: 'Schriftgröße',
+        fontsizes: {
+          'x-small': 'Sehr klein',
+          'small': 'Klein',
+          'medium': 'Normal',
+          'large': 'Groß',
+          'x-large': 'Sehr groß',
+          'custom': 'Benutzerdefiniert'
+        },
+        fontCustomSize: {
+          title: 'Benutzerdefinierte Schriftgröße',
+          label: 'Schriftgröße',
+          value: '48px'
+        }
+      },
+      es: {
+        fontsize: 'Tamaño de Fuente',
+        fontsizes: {
+          'x-small': 'Extra pequeña',
+          'small': 'Pegueña',
+          'medium': 'Regular',
+          'large': 'Grande',
+          'x-large': 'Extra Grande',
+          'custom': 'Customizada'
+        },
+        fontCustomSize: {
+          title: 'Tamaño de Fuente Customizada',
+          label: 'Tamaño de Fuente',
+          value: '48px'
+        }
+      },
+      et: {
+        fontsize: 'Teksti suurus',
+        fontsizes: {
+          'x-small': 'Väga väike',
+          'small': 'Väike',
+          'medium': 'Tavaline',
+          'large': 'Suur',
+          'x-large': 'Väga suur',
+          'custom': 'Määra ise'
+        },
+        fontCustomSize: {
+          title: 'Kohandatud teksti suurus',
+          label: 'Teksti suurus',
+          value: '48px'
+        }
+      },
+      fr: {
+        fontsize: 'Taille de la police',
+        fontsizes: {
+          'x-small': 'Très petit',
+          'small': 'Petit',
+          'medium': 'Normal',
+          'large': 'Grand',
+          'x-large': 'Très grand',
+          'custom': 'Taille personnalisée'
+        },
+        fontCustomSize: {
+          title: 'Taille de police personnalisée',
+          label: 'Taille de la police',
+          value: '48px'
+        }
+      },
+      hu: {
+        fontsize: 'Betű méret',
+        fontsizes: {
+          'x-small': 'Extra kicsi',
+          'small': 'Kicsi',
+          'medium': 'Normális',
+          'large': 'Nagy',
+          'x-large': 'Extra nagy',
+          'custom': 'Egyedi'
+        },
+        fontCustomSize: {
+          title: 'Egyedi betű méret',
+          label: 'Betű méret',
+          value: '48px'
+        }
+      },
+      it: {
+        fontsize: 'Dimensioni del testo',
+        fontsizes: {
+          'x-small': 'Molto piccolo',
+          'small': 'piccolo',
+          'regular': 'normale',
+          'large': 'grande',
+          'x-large': 'Molto grande',
+          'custom': 'Personalizzato'
+        },
+        fontCustomSize: {
+          title: 'Dimensioni del testo personalizzato',
+          label: 'Dimensioni del testo',
+          value: '48px'
+        }
+      },
+      ko: {
+        fontsize: '글꼴 크기',
+        fontsizes: {
+          'x-small': '아주 작게',
+          'small': '작게',
+          'medium': '보통',
+          'large': '크게',
+          'x-large': '아주 크게',
+          'custom': '사용자 지정'
+        },
+        fontCustomSize: {
+          title: '사용자 지정 글꼴 크기',
+          label: '글꼴 크기',
+          value: '48px'
+        }
+      },
+      nl: {
+        fontsize: 'Lettergrootte',
+        fontsizes: {
+          'x-small': 'Extra klein',
+          'small': 'Klein',
+          'medium': 'Normaal',
+          'large': 'Groot',
+          'x-large': 'Extra groot',
+          'custom': 'Tilpasset'
+        }
+      },
+      pt_br: {
+        fontsize: 'Tamanho da fonte',
+        fontsizes: {
+          'x-small': 'Extra pequeno',
+          'small': 'Pequeno',
+          'regular': 'Médio',
+          'large': 'Grande',
+          'x-large': 'Extra grande',
+          'custom': 'Personalizado'
+        },
+        fontCustomSize: {
+          title: 'Tamanho de Fonte Personalizado',
+          label: 'Tamanho de Fonte',
+          value: '48px'
+        }
+      },
+      tr: {
+        fontsize: 'Yazı boyutu',
+        fontsizes: {
+          'x-small': 'Çok küçük',
+          'small': 'Küçük',
+          'medium': 'Normal',
+          'large': 'Büyük',
+          'x-large': 'Çok büyük',
+          'custom': 'Özel'
+        },
+        fontCustomSize: {
+          title: 'Özel Yazı Boyutu',
+          label: 'Yazı Boyutu',
+          value: '48px'
+        }
+      },
+      zh_tw: {
+        fontsize: '字體大小',
+        fontsizes: {
+          'x-small': '最小',
+          'small': '小',
+          'medium': '中',
+          'large': '大',
+          'x-large': '最大',
+          'custom': '自訂大小'
+        },
+        fontCustomSize: {
+          title: '自訂義字體大小',
+          label: '字體大小',
+          value: '48px'
+        }
+      }
+    }
+  }); // jshint camelcase:true
+
+  var defaultOptions = {
+    sizeList: ['x-small', 'small', 'medium', 'large', 'x-large'],
+    allowCustomSize: true
+  }; // Add dropdown with font sizes
+
+  $.extend(true, $.trumbowyg, {
+    plugins: {
+      fontsize: {
+        init: function init(trumbowyg) {
+          trumbowyg.o.plugins.fontsize = $.extend({}, defaultOptions, trumbowyg.o.plugins.fontsize || {});
+          trumbowyg.addBtnDef('fontsize', {
+            dropdown: buildDropdown(trumbowyg)
+          });
+        }
+      }
+    }
+  });
+
+  function setFontSize(trumbowyg, size) {
+    trumbowyg.$ed.focus();
+    trumbowyg.saveRange(); // Temporary size
+
+    trumbowyg.execCmd('fontSize', '1'); // Find <font> elements that were added and change to <span> with chosen size
+
+    trumbowyg.$ed.find('font[size="1"]').replaceWith(function () {
+      return $('<span/>', {
+        css: {
+          'font-size': size
+        },
+        html: this.innerHTML
+      });
+    }); // Remove and leftover <span> elements
+
+    $(trumbowyg.range.startContainer.parentElement).find('span[style=""]').contents().unwrap();
+    trumbowyg.restoreRange();
+    trumbowyg.syncCode();
+    trumbowyg.$c.trigger('tbwchange');
+  }
+
+  function buildDropdown(trumbowyg) {
+    var dropdown = [];
+    $.each(trumbowyg.o.plugins.fontsize.sizeList, function (index, size) {
+      trumbowyg.addBtnDef('fontsize_' + size, {
+        text: '<span style="font-size: ' + size + ';">' + (trumbowyg.lang.fontsizes[size] || size) + '</span>',
+        hasIcon: false,
+        fn: function fn() {
+          setFontSize(trumbowyg, size);
+        }
+      });
+      dropdown.push('fontsize_' + size);
+    });
+
+    if (trumbowyg.o.plugins.fontsize.allowCustomSize) {
+      var customSizeButtonName = 'fontsize_custom';
+      var customSizeBtnDef = {
+        fn: function fn() {
+          trumbowyg.openModalInsert(trumbowyg.lang.fontCustomSize.title, {
+            size: {
+              label: trumbowyg.lang.fontCustomSize.label,
+              value: trumbowyg.lang.fontCustomSize.value
+            }
+          }, function (form) {
+            setFontSize(trumbowyg, form.size);
+            return true;
+          });
+        },
+        text: '<span style="font-size: medium;">' + trumbowyg.lang.fontsizes.custom + '</span>',
+        hasIcon: false
+      };
+      trumbowyg.addBtnDef(customSizeButtonName, customSizeBtnDef);
+      dropdown.push(customSizeButtonName);
+    }
+
+    return dropdown;
+  }
+})(jQuery);
 /*/* ===========================================================
  * trumbowyg.history.js v1.0
  * history plugin for Trumbowyg
@@ -1237,6 +1287,12 @@
         history: {
           redo: 'Wiederholen',
           undo: 'Rückgängig'
+        }
+      },
+      et: {
+        history: {
+          redo: 'Võta tagasi',
+          undo: 'Tee uuesti'
         }
       },
       fr: {
@@ -1420,6 +1476,168 @@
     }
   });
 })(jQuery);
+/*/* ===========================================================
+ * trumbowyg.insertaudio.js v1.0
+ * InsertAudio plugin for Trumbowyg
+ * http://alex-d.github.com/Trumbowyg
+ * ===========================================================
+ * Author : Adam Hess (AdamHess)
+ */
+(function ($) {
+  'use strict';
+
+  var insertAudioOptions = {
+    src: {
+      label: 'URL',
+      required: true
+    },
+    autoplay: {
+      label: 'AutoPlay',
+      required: false,
+      type: 'checkbox'
+    },
+    muted: {
+      label: 'Muted',
+      required: false,
+      type: 'checkbox'
+    },
+    preload: {
+      label: 'preload options',
+      required: false
+    }
+  };
+  $.extend(true, $.trumbowyg, {
+    langs: {
+      // jshint camelcase:false
+      en: {
+        insertAudio: 'Insert Audio'
+      },
+      da: {
+        insertAudio: 'Indsæt lyd'
+      },
+      et: {
+        insertAudio: 'Lisa helifail'
+      },
+      fr: {
+        insertAudio: 'Insérer un son'
+      },
+      hu: {
+        insertAudio: 'Audio beszúrás'
+      },
+      ja: {
+        insertAudio: '音声の挿入'
+      },
+      ko: {
+        insertAudio: '소리 넣기'
+      },
+      pt_br: {
+        insertAudio: 'Inserir áudio'
+      },
+      ru: {
+        insertAudio: 'Вставить аудио'
+      },
+      tr: {
+        insertAudio: 'Ses Ekle'
+      } // jshint camelcase:true
+
+    },
+    plugins: {
+      insertAudio: {
+        init: function init(trumbowyg) {
+          var btnDef = {
+            fn: function fn() {
+              var insertAudioCallback = function insertAudioCallback(v) {
+                // controls should always be show otherwise the audio will
+                // be invisible defeating the point of a wysiwyg
+                var html = '<audio controls';
+
+                if (v.src) {
+                  html += ' src=\'' + v.src + '\'';
+                }
+
+                if (v.autoplay) {
+                  html += ' autoplay';
+                }
+
+                if (v.muted) {
+                  html += ' muted';
+                }
+
+                if (v.preload) {
+                  html += ' preload=\'' + v + '\'';
+                }
+
+                html += '></audio>';
+                var node = $(html)[0];
+                trumbowyg.range.deleteContents();
+                trumbowyg.range.insertNode(node);
+                return true;
+              };
+
+              trumbowyg.openModalInsert(trumbowyg.lang.insertAudio, insertAudioOptions, insertAudioCallback);
+            }
+          };
+          trumbowyg.addBtnDef('insertAudio', btnDef);
+        }
+      }
+    }
+  });
+})(jQuery);
+/* ===========================================================
+ * trumbowyg.indent.js v1.0
+ * Indent or Outdent plugin for Trumbowyg
+ * http://alex-d.github.com/Trumbowyg
+ * ===========================================================
+ * Author : Fabacks
+ *          Website : https://github.com/Fabacks
+ */
+(function ($) {
+  'use strict';
+
+  $.extend(true, $.trumbowyg, {
+    langs: {
+      en: {
+        indent: 'Indent',
+        outdent: 'Outdent'
+      },
+      et: {
+        indent: 'Taande suurendamine',
+        outdent: 'Taande vähendamine'
+      },
+      fr: {
+        indent: 'Augmenter le retrait',
+        outdent: 'Diminuer le retrait'
+      }
+    }
+  }); // Adds the extra button definition
+
+  $.extend(true, $.trumbowyg, {
+    plugins: {
+      paragraph: {
+        init: function init(trumbowyg) {
+          var indentBtnDef = {
+            fn: 'indent',
+            title: trumbowyg.lang.indent,
+            isSupported: function isSupported() {
+              return !!document.queryCommandSupported && !!document.queryCommandSupported('indent');
+            },
+            ico: 'indent'
+          };
+          var outdentBtnDef = {
+            fn: 'outdent',
+            title: trumbowyg.lang.outdent,
+            isSupported: function isSupported() {
+              return !!document.queryCommandSupported && !!document.queryCommandSupported('outdent');
+            },
+            ico: 'outdent'
+          };
+          trumbowyg.addBtnDef('indent', indentBtnDef);
+          trumbowyg.addBtnDef('outdent', outdentBtnDef);
+        }
+      }
+    }
+  });
+})(jQuery);
 (function ($) {
   'use strict';
 
@@ -1442,6 +1660,15 @@
           'normal': 'Normal',
           '1.5': 'Stor',
           '2.0': 'Ekstra stor'
+        }
+      },
+      et: {
+        lineheight: 'Reavahe',
+        lineheights: {
+          '0.9': 'Väike',
+          'normal': 'Tavaline',
+          '1.5': 'Suur',
+          '2.0': 'Väga suur'
         }
       },
       fr: {
@@ -1581,110 +1808,6 @@
     return parentEl;
   }
 })(jQuery);
-/*/* ===========================================================
- * trumbowyg.insertaudio.js v1.0
- * InsertAudio plugin for Trumbowyg
- * http://alex-d.github.com/Trumbowyg
- * ===========================================================
- * Author : Adam Hess (AdamHess)
- */
-(function ($) {
-  'use strict';
-
-  var insertAudioOptions = {
-    src: {
-      label: 'URL',
-      required: true
-    },
-    autoplay: {
-      label: 'AutoPlay',
-      required: false,
-      type: 'checkbox'
-    },
-    muted: {
-      label: 'Muted',
-      required: false,
-      type: 'checkbox'
-    },
-    preload: {
-      label: 'preload options',
-      required: false
-    }
-  };
-  $.extend(true, $.trumbowyg, {
-    langs: {
-      // jshint camelcase:false
-      en: {
-        insertAudio: 'Insert Audio'
-      },
-      da: {
-        insertAudio: 'Indsæt lyd'
-      },
-      fr: {
-        insertAudio: 'Insérer un son'
-      },
-      hu: {
-        insertAudio: 'Audio beszúrás'
-      },
-      ja: {
-        insertAudio: '音声の挿入'
-      },
-      ko: {
-        insertAudio: '소리 넣기'
-      },
-      pt_br: {
-        insertAudio: 'Inserir áudio'
-      },
-      ru: {
-        insertAudio: 'Вставить аудио'
-      },
-      tr: {
-        insertAudio: 'Ses Ekle'
-      } // jshint camelcase:true
-
-    },
-    plugins: {
-      insertAudio: {
-        init: function init(trumbowyg) {
-          var btnDef = {
-            fn: function fn() {
-              var insertAudioCallback = function insertAudioCallback(v) {
-                // controls should always be show otherwise the audio will
-                // be invisible defeating the point of a wysiwyg
-                var html = '<audio controls';
-
-                if (v.src) {
-                  html += ' src=\'' + v.src + '\'';
-                }
-
-                if (v.autoplay) {
-                  html += ' autoplay';
-                }
-
-                if (v.muted) {
-                  html += ' muted';
-                }
-
-                if (v.preload) {
-                  html += ' preload=\'' + v + '\'';
-                }
-
-                html += '></audio>';
-                var node = $(html)[0];
-                trumbowyg.range.deleteContents();
-                trumbowyg.range.insertNode(node);
-                return true;
-              };
-
-              trumbowyg.openModalInsert(trumbowyg.lang.insertAudio, insertAudioOptions, insertAudioCallback);
-            }
-          };
-          trumbowyg.addBtnDef('insertAudio', btnDef);
-        }
-      }
-    }
-  });
-})(jQuery);
 /* ===========================================================
  * trumbowyg.mathMl.js v1.0
  * MathML plugin for Trumbowyg
@@ -1709,6 +1832,11 @@
         mathml: 'Indsæt formler',
         formulas: 'Formler',
         inline: 'Inline'
+      },
+      et: {
+        mathml: 'Sisesta valem',
+        formulas: 'Valemid',
+        inline: 'Teksti sees'
       },
       fr: {
         mathml: 'Inserer une formule',
@@ -1832,6 +1960,9 @@
       da: {
         mention: 'Nævn'
       },
+      et: {
+        mention: 'Maini'
+      },
       fr: {
         mention: 'Mentionner'
       },
@@ -1947,6 +2078,10 @@
       },
       da: {
         noembedError: 'Fejl'
+      },
+      et: {
+        noembed: 'Noembed',
+        noembedError: 'Viga'
       },
       fr: {
         noembedError: 'Erreur'
@@ -2202,7 +2337,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     e.preventDefault();
   }
 
-  var ResizeWithCanvas = function ResizeWithCanvas() {
+  var ResizeWithCanvas = function ResizeWithCanvas(trumbowyg) {
     // variable to create canvas and save img in resize mode
     this.resizeCanvas = document.createElement('canvas'); // to allow canvas to get focus
 
@@ -2216,8 +2351,14 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     };
 
     this.pressBackspaceOrDelete = function (obj) {
-      $(obj.resizeCanvas).replaceWith('');
+      $(obj.resizeCanvas).remove();
       obj.resizeImg = null;
+
+      if (trumbowyg !== null) {
+        trumbowyg.syncCode(); // notify changes
+
+        trumbowyg.$c.trigger('tbwchange');
+      }
     }; // PRIVATE FUNCTION
 
 
@@ -2230,15 +2371,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       var BB = canvas.getBoundingClientRect();
       offsetX = BB.left;
       offsetY = BB.top;
-    };
-
-    var drawRect = function drawRect(shapeData, ctx) {
-      // Inner
-      ctx.beginPath();
-      ctx.fillStyle = 'rgb(255, 255, 255)';
-      ctx.rect(shapeData.points.x, shapeData.points.y, shapeData.points.width, shapeData.points.height);
-      ctx.fill();
-      ctx.stroke();
     };
 
     var updateCanvas = function updateCanvas(canvas, ctx, img, canvasWidth, canvasHeight) {
@@ -2295,12 +2427,10 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     this.reset = function () {
       if (this.resizeImg === null) {
         return;
-      }
+      } // set style of image to avoid issue on resize because this attribute have priority over width and height attribute
 
-      this.resizeImg.width = this.resizeCanvas.clientWidth - 10;
-      this.resizeImg.height = this.resizeCanvas.clientHeight - 10; // clear style of image to avoid issue on resize because this attribute have priority over width and height attribute
 
-      this.resizeImg.removeAttribute('style');
+      this.resizeImg.setAttribute('style', 'width: 100%; max-width: ' + (this.resizeCanvas.clientWidth - 10) + 'px; height: auto; max-height: ' + (this.resizeCanvas.clientHeight - 10) + 'px;');
       $(this.resizeCanvas).replaceWith($(this.resizeImg)); // reset canvas style
 
       this.resizeCanvas.removeAttribute('style');
@@ -2325,7 +2455,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       $(this.resizeImg).replaceWith($(this.resizeCanvas));
       updateCanvas(this.resizeCanvas, this.ctx, this.resizeImg, this.resizeCanvas.width, this.resizeCanvas.height); // enable resize
 
-      $(this.resizeCanvas).resizable(resizableOptions).on('mousedown', preventDefault);
+      $(this.resizeCanvas).resizableSafe(resizableOptions).on('mousedown', preventDefault);
 
       var _this = this;
 
@@ -2355,7 +2485,16 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           // BACKSPACE or DELETE
           _this.pressBackspaceOrDelete(_this);
         }
-      }).on('focus', preventDefault);
+      }).on('focus', preventDefault).on('blur', function () {
+        _this.reset(); // save changes
+
+
+        if (trumbowyg !== null) {
+          trumbowyg.syncCode(); // notify changes
+
+          trumbowyg.$c.trigger('tbwchange');
+        }
+      });
       this.resizeCanvas.focus();
       return true;
     }; // update the canvas after the resizing
@@ -2370,22 +2509,24 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       this.resizeCanvas.height = this.resizeCanvas.clientHeight;
       updateCanvas(this.resizeCanvas, this.ctx, this.resizeImg, this.resizeCanvas.width, this.resizeCanvas.height);
     };
-  }; // object to interact with canvas
-
-
-  var resizeWithCanvas = new ResizeWithCanvas();
-
-  function destroyResizable(trumbowyg) {
-    // clean html code
-    trumbowyg.$ed.find('canvas.resizable').resizable('destroy').off('mousedown', preventDefault).removeClass('resizable');
-    resizeWithCanvas.reset();
-    trumbowyg.syncCode();
-  }
+  };
 
   $.extend(true, $.trumbowyg, {
     plugins: {
       resizimg: {
+        destroyResizable: function destroyResizable() {},
         init: function init(trumbowyg) {
+          var destroyResizable = this.destroyResizable; // object to interact with canvas
+
+          var resizeWithCanvas = new ResizeWithCanvas(trumbowyg);
+
+          this.destroyResizable = function () {
+            // clean html code
+            trumbowyg.$ed.find('canvas.resizable').resizableSafe('destroy').off('mousedown', preventDefault).removeClass('resizable');
+            resizeWithCanvas.reset();
+            trumbowyg.syncCode();
+          };
+
           trumbowyg.o.plugins.resizimg = $.extend(true, {}, defaultOptions, trumbowyg.o.plugins.resizimg || {}, {
             resizable: {
               resizeWidth: false,
@@ -2440,7 +2581,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
               }
 
               preventDefault(e);
-              resizeWithCanvas.reset(); // save changes
+              resizeWithCanvas.reset(); //sync
+
+              trumbowyg.syncCode(); // notify changes
 
               trumbowyg.$c.trigger('tbwchange');
             });
@@ -2454,16 +2597,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
           }); // Destroy
 
           trumbowyg.$c.on('tbwblur', function () {
-            // if I have already focused the canvas avoid destroy
+            // when canvas is created the tbwblur is called
+            // this code avoid to destroy the canvas that allow the image resizing
             if (resizeWithCanvas.isFocusedNow()) {
               resizeWithCanvas.blurNow();
             } else {
-              destroyResizable(trumbowyg);
+              destroyResizable();
             }
           });
         },
-        destroy: function destroy(trumbowyg) {
-          destroyResizable(trumbowyg);
+        destroy: function destroy() {
+          this.destroyResizable();
         }
       }
     }
@@ -2487,6 +2631,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       },
       da: {
         preformatted: 'Præformateret <pre>'
+      },
+      et: {
+        preformatted: 'Eelvormindatud tekst <pre>'
       },
       fr: {
         preformatted: 'Exemple de code <pre>'
@@ -2638,6 +2785,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       en: {
         specialChars: 'Special characters'
       },
+      et: {
+        specialChars: 'Erimärgid'
+      },
       fr: {
         specialChars: 'Caractères spéciaux'
       },
@@ -2746,6 +2896,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         tableDestroy: 'Tabelle löschen',
         error: 'Error'
       },
+      et: {
+        table: 'Sisesta tabel',
+        tableAddRow: 'Lisa rida',
+        tableAddRowAbove: 'Lisa rida üles',
+        tableAddColumnLeft: 'Lisa tulp vasakule',
+        tableAddColumn: 'Lisa tulp paremale',
+        tableDeleteRow: 'Kustuta rida',
+        tableDeleteColumn: 'Kustuta tulp',
+        tableDestroy: 'Kustuta tabel',
+        error: 'Viga'
+      },
       fr: {
         table: 'Insérer un tableau',
         tableAddRow: 'Ajouter des lignes',
@@ -2831,9 +2992,12 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       tr: {
         table: 'Tablo ekle',
         tableAddRow: 'Satır ekle',
-        tableAddRowAbove: 'Satır ekle',
-        tableAddColumnLeft: 'Kolon ekle',
-        tableAddColumn: 'Kolon ekle',
+        tableAddRowAbove: 'Yukarıya satır ekle',
+        tableAddColumnLeft: 'Sola sütun ekle',
+        tableAddColumn: 'Sağa sütun ekle',
+        tableDeleteRow: 'Satırı sil',
+        tableDeleteColumn: 'Sütunu sil',
+        tableDestroy: 'Tabloyu sil',
         error: 'Hata'
       },
       zh_tw: {
@@ -2846,6 +3010,17 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         tableDeleteColumn: '刪除列',
         tableDestroy: '刪除表格',
         error: '錯誤'
+      },
+      es: {
+        table: 'Insertar tabla',
+        tableAddRow: 'Agregar fila',
+        tableAddRowAbove: 'Agregar fila arriba',
+        tableAddColumnLeft: 'Agregar columna a la izquierda',
+        tableAddColumn: 'Agregar columna a la derecha',
+        tableDeleteRow: 'Borrar fila',
+        tableDeleteColumn: 'Borrar columna',
+        tableDestroy: 'Borrar tabla',
+        error: 'Error'
       } // jshint camelcase:true
 
     },
@@ -3103,6 +3278,9 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
       de: {
         template: 'Vorlage'
       },
+      et: {
+        template: 'Mall'
+      },
       fr: {
         template: 'Patron'
       },
@@ -3196,7 +3374,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
     urlPropertyName: 'file',
     // How to get url from the json response (for instance 'url' for {url: ....})
     statusPropertyName: 'success',
-    // How to get status from the json response 
+    // How to get status from the json response
     success: undefined,
     // Success callback: function (data, trumbowyg, $modal, values) {}
     error: undefined,
@@ -3245,6 +3423,11 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
         upload: 'Hochladen',
         file: 'Datei',
         uploadError: 'Fehler'
+      },
+      et: {
+        upload: 'Lae üles',
+        file: 'Fail',
+        uploadError: 'Viga'
       },
       fr: {
         upload: 'Envoi',
@@ -3325,12 +3508,19 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                 fields.width = {
                   value: ''
                 };
-              }
+              } // Prevent multiple submissions while uploading
 
+
+              var isUploading = false;
               var $modal = trumbowyg.openModalInsert( // Title
               trumbowyg.lang.upload, // Fields
               fields, // Callback
               function (values) {
+                if (isUploading) {
+                  return;
+                }
+
+                isUploading = true;
                 var data = new FormData();
                 data.append(trumbowyg.o.plugins.upload.fileFieldName, file);
                 trumbowyg.o.plugins.upload.data.map(function (cur) {
@@ -3373,7 +3563,7 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                         var $img = $('img[src="' + url + '"]:not([alt])', trumbowyg.$box);
                         $img.attr('alt', values.alt);
 
-                        if (trumbowyg.o.imageWidthModalEdit && parseInt(values.width) > 0) {
+                        if (trumbowyg.o.plugins.upload.imageWidthModalEdit && parseInt(values.width) > 0) {
                           $img.attr({
                             width: values.width
                           });
@@ -3388,10 +3578,13 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
                         trumbowyg.$c.trigger('tbwuploaderror', [trumbowyg, data]);
                       }
                     }
+
+                    isUploading = false;
                   },
                   error: trumbowyg.o.plugins.upload.error || function () {
                     trumbowyg.addErrorOnModalField($('input[type=file]', $modal), trumbowyg.lang.uploadError);
                     trumbowyg.$c.trigger('tbwuploaderror', [trumbowyg]);
+                    isUploading = false;
                   }
                 });
               });
